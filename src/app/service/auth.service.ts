@@ -22,7 +22,7 @@ export class AuthService {
     return this.http.post<User>('https://blogdavanse.herokuapp.com/usuarios/cadastrar', user)
   }
 
-  logado(){
+  logado() {
     let ok: boolean = false
     if(environment.token != ''){
       ok = true
