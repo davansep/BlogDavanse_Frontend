@@ -7,29 +7,25 @@ import { TemaService } from '../service/tema.service';
 @Component({
   selector: 'app-tema',
   templateUrl: './tema.component.html',
-  styleUrls: ['./tema.component.css']
+  styleUrls: ['./tema.component.css'],
 })
 export class TemaComponent implements OnInit {
+  tema: Tema = new Tema();
+  listaTemas: Tema[];
 
-  tema: Tema = new Tema()
-  listaTemas: Tema[]
-
-  constructor(
-    private router: Router,
-    private temaService: TemaService
-  ) { }
+  constructor(private router: Router, private temaService: TemaService) {}
 
   ngOnInit() {
-    if(environment.token == ''){
-      this.router.navigate(['/entrar'])
+    if (environment.token == '') {
+      this.router.navigate(['/entrar']);
     }
   }
 
-  cadastrar(){
-    this.temaService.postTema(this.tema).subscribe((resp:Tema) =>{
-      this.tema = resp
-      alert('Tema cadastrado com sucesso!')
-      this.tema = new Tema()
-    })
+  cadastrar() {
+    this.temaService.postTema(this.tema).subscribe((resp: Tema) => {
+      this.tema = resp;
+      alert('Tema cadastrado com sucesso!');
+      this.tema = new Tema();
+    });
   }
 }
