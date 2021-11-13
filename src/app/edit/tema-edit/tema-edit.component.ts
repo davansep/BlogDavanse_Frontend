@@ -23,12 +23,12 @@ export class TemaEditComponent implements OnInit {
       this.router.navigate(['/entrar']);
     }
     let id = this.route.snapshot.params['id'];
-    this.findByIdTema(id);
+    this.findByIdTema(id)
   }
 
   findByIdTema(id: number) {
     this.temaService.getByIdTema(id).subscribe((resp: Tema) => {
-      this.tema = resp;
+      this.tema = resp
     });
   }
 
