@@ -32,6 +32,14 @@ export class AuthService {
     return this.http.post<User>('https://blogdavanse.herokuapp.com/usuarios/cadastrar', user)
   }
 
+  getByIdUser(id: number): Observable<User>{
+    return this.http.get<User>(`https://blogdavanse.herokuapp.com/usuarios/${id}`, this.token)
+  }
+
+  atualizar(user: User): Observable<User> {
+    return this.http.put<User>('https://blogdavanse.herokuapp.com/usuarios/atualizar', user);
+  }
+
   logado() {
     let ok: boolean = false
     if(environment.token != ''){

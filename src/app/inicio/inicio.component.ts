@@ -1,3 +1,4 @@
+import { AuthService } from './../service/auth.service';
 import { TemaService } from './../service/tema.service';
 import { PostagemService } from './../service/postagem.service';
 import { Component, OnInit } from '@angular/core';
@@ -15,6 +16,7 @@ import { User } from '../model/User';
 export class InicioComponent implements OnInit {
 
   postagem: Postagem = new Postagem()
+  listaPostagens: Postagem[]
 
   tema: Tema = new Tema()
   listaTemas: Tema[]
@@ -26,16 +28,22 @@ export class InicioComponent implements OnInit {
   constructor(
     private router: Router,
     private postagemService: PostagemService,
-    private temaService: TemaService
+    private temaService: TemaService,
+    private auth: AuthService
 
   ) { }
 
   ngOnInit() {
+    window.scroll(0,0)
+
     if(environment.token == ''){
-      //alert('Sua seção expirou, faça o login novamente.')
+      alert('Sua seção expirou, faça o login novamente.')
       this.router.navigate(['/entrar'])
     }
+
     this.getAllTemas()
+    this.getAllPostagens()
+    this.auth.refreshToken()
   }
 
   getAllTemas(){
@@ -50,6 +58,18 @@ export class InicioComponent implements OnInit {
     })
   }
 
+  getAllPostagens(){
+    this.postagemService.getAllPostagens().subscribe((resp: Postagem[])=>{
+      this.listaPostagens = resp
+    })
+  }
+
+  findByIdUser() {
+    this.auth.getByIdUser(this.idUser).subscribe((resp: User) => {
+      this.user = resp
+    })
+  }
+
   publicar(){
     this.tema.id = this.idTema
     this.postagem.tema = this.tema
@@ -61,6 +81,7 @@ export class InicioComponent implements OnInit {
       this.postagem = resp
       alert('Postagem realizada com sucesso!')
       this.postagem = new Postagem()
+      this.getAllPostagens()
     })
   }
 }
